@@ -20,3 +20,5 @@ a = a[1];
 
 alert("A = " + a);
 alert("B = " + b); 
+
+// end
