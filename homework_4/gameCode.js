@@ -156,5 +156,5 @@ function countAnswers(quest, answer) {
 function resultAnswers(num) {
     obj = answers[num];
     alert('На вопрос #' + String(num + 1) + ':\n' + obj.quest + 'Вы ответили:\n' + obj.answet);
-}
+}  
 
