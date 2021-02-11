@@ -1,17 +1,35 @@
 //#1
 //Не разобрался , как c while сделать первый цикл с учетом первого числа из промежутка
 var d = 100;
-var i = 0;
+var i = 2;
 
-outer: for (i; i < d; i++) {
-    if (i >= 2) {
-        var j = 2;
-        while (j < i) {
-            if (i % j == 0) continue outer;
-            j++
+// outer: for (i; i < d; i++) {
+//     if (i >= 2) {
+//         var j = 2;
+//         while (j < i) {
+//             if (i % j == 0) continue outer;
+//             j++
+//         }
+//         document.write('<p>' + i + '</p>')
+//     }
+// }
+
+function f1(num) {
+    j = 2;
+    while (j <= num) {
+        if (num % j == 0) {
+            return false;
         }
+        else { return true }
+    }
+    j++;
+}
+
+while (i <= d) {
+    if (f1(i)) {
         document.write('<p>' + i + '</p>')
     }
+    i++;
 }
 
 //#2
