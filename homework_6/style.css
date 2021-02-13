@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.commonDiv {
+    max-width: 1000px;
+}
+
+.smallImages {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 32px;
+}
+
+.smallImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.bigImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 500px;
+    object-fit: cover;
+}
+
+.storeDiv {
+    max-width: 1000px;
+}
+
+.catalogDiv {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.sellImg {
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 16px;
+}
+
+.card {
+    display: grid;
+    justify-items: center;
+    grid-row-gap: 18px;
+}
+
+.basketProduct {
+    display: grid;
+    grid-row-gap: 40px;
+    justify-content: center;
+    align-items: center;
+    grid-template: 1fr/repeat(3, 1fr);
+    transition-duration: 400ms;
+}
