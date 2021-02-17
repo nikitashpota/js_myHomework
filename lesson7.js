@@ -8,6 +8,8 @@ var gameIsRunning = false; // Запущена ли игра
 var snake_timer; // Таймер змейки
 var food_timer; // Таймер для еды
 var score = 0; // Результат
+var bomb_unit; // Параметр для учета предыдущей бомбы
+
 
 function init() {
     prepareGameField(); // Генерация поля
@@ -15,18 +17,12 @@ function init() {
     var wrap = document.getElementsByClassName('wrap')[0];
     // Подгоняем размер контейнера под игровое поле
     
-	/*
-	if (16 * (FIELD_SIZE_X + 1) < 380) {
-        wrap.style.width = '380px';
-    }
-    else {
-        wrap.style.width = (16 * (FIELD_SIZE_X + 1)).toString() + 'px';
-    }
-    */
     wrap.style.width = '400px';
     // События кнопок Старт и Новая игра
     document.getElementById('snake-start').addEventListener('click', startGame);
     document.getElementById('snake-renew').addEventListener('click', refreshGame);
+    var resPoint = document.getElementById('snake-points');
+    resPoint.innerHTML += score;
 
 // Отслеживание клавиш клавиатуры
     addEventListener('keydown', changeDirection);
@@ -68,7 +64,7 @@ function startGame() {
 
     snake_timer = setInterval(move, SNAKE_SPEED);//каждые 200мс запускаем функцию move
     setTimeout(createFood, 5000);
-    setTimeout(createBomb, 5000);
+    setInterval(createBomb, 5000);
 }
 
 /**
@@ -128,7 +124,7 @@ function move() {
     // 1) new_unit не часть змейки
     // 2) Змейка не ушла за границу поля
     //console.log(new_unit);
-    if (!isSnakeUnit(new_unit) && new_unit !== undefined) {
+    if (!isSnakeUnit(new_unit) && new_unit !== undefined && !isBomb(new_unit)) {
         // Добавление новой части змейки
         new_unit.setAttribute('class', new_unit.getAttribute('class') + ' snake-unit');
         snake.push(new_unit);
@@ -176,6 +172,7 @@ function haveFood(unit) {
         check = true;
         createFood();
         score++;
+        reloadPoints(score);
     }
     return check;
 }
@@ -260,12 +257,14 @@ function createBomb(){
     var bombCreated = false;
 
     while(!bombCreated){
+        deletBomb(bomb_unit);
+
         bomb_y = Math.floor(Math.random() * FIELD_SIZE_Y);
         bomb_x = Math.floor(Math.random() * FIELD_SIZE_X);
 
         var bomb_cell = document.getElementsByClassName('cell-' + bomb_y + '-' + bomb_x)[0];
         var bomb_cell_classes = bomb_cell.getAttribute('class').split(' ');
-
+        bomb_unit = bomb_cell;
         if(!bomb_cell_classes.includes('snake-unit') || !bomb_cell_classes.includes('food-unit')){
             var classes = '';
             for (var i = 0; i < bomb_cell_classes.length; i++){
@@ -275,6 +274,29 @@ function createBomb(){
         bombCreated = true;
         }
     }
+}
+
+function deletBomb(unit){
+    try{
+        if(unit.getAttribute('class').split(' ').includes('bomb-unit')){
+            var classes = unit.getAttribute('class').split(' ');
+            unit.setAttribute('class', classes[0] + ' ' + classes[1]);
+        }
+    }catch{}
+}
+
+function isBomb(unit){
+    var check = false;
+
+    if(unit.getAttribute('class').split(' ').includes('bomb-unit')){
+        var check = true;
+    }
+
+    return check;
+}
+
+function reloadPoints(points){
+    document.getElementById('snake-points').innerHTML = "Ваш счет: " + points;
 }
 
 // Инициализация
